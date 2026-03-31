@@ -3,6 +3,7 @@ import { getDayOfWeek, getHourMinute, isCurrentRange } from '../../lib/date-util
 import { normalizePageParams } from '../../lib/pagination.js';
 import { prisma } from '../../lib/prisma.js';
 import { auditService } from '../audit/audit.service.js';
+import { notificationsService } from '../notifications/notifications.service.js';
 import type { AccessGateway} from './access-control.gateway.js';
 import { SimulatedAccessGateway } from './access-control.gateway.js';
 import { accessControlRepository } from './access-control.repository.js';
@@ -67,6 +68,17 @@ export class AccessControlService {
         description: 'Intento de acceso con dispositivo inactivo',
       });
 
+      await this.notifyDeniedAccess({
+        branchId: input.branchId,
+        title: 'Acceso denegado por dispositivo inactivo',
+        body: 'Se rechazo un acceso porque el dispositivo informado esta inactivo.',
+        context: {
+          logId: log.id,
+          identifier: input.identifier,
+          deviceCode: input.deviceCode,
+        },
+      });
+
       return {
         ...buildDenyPayload('DEVICE_INACTIVE', 'El dispositivo informado esta inactivo.'),
         action,
@@ -99,6 +111,17 @@ export class AccessControlService {
         description: 'Acceso denegado por cliente inexistente',
       });
 
+      await this.notifyDeniedAccess({
+        branchId: input.branchId,
+        title: 'Acceso denegado por cliente inexistente',
+        body: 'No se encontro un cliente para el identificador recibido en control de acceso.',
+        context: {
+          logId: log.id,
+          identifier: input.identifier,
+          method: input.method,
+        },
+      });
+
       return {
         ...buildDenyPayload('CLIENT_NOT_FOUND', 'No se encontro un cliente para ese identificador.'),
         action,
@@ -121,6 +144,17 @@ export class AccessControlService {
         },
       });
 
+      await this.notifyDeniedAccess({
+        branchId: input.branchId,
+        clientId: client.id,
+        title: `Acceso denegado a ${client.firstName} ${client.lastName}`,
+        body: 'El cliente no se encuentra activo.',
+        context: {
+          logId: log.id,
+          denialReason: 'CLIENT_INACTIVE',
+        },
+      });
+
       return {
         ...buildDenyPayload('CLIENT_INACTIVE', 'El cliente no se encuentra activo.'),
         action,
@@ -140,6 +174,17 @@ export class AccessControlService {
           denialReason: 'ADMINISTRATIVE_BLOCK',
           message: client.administrativeBlockReason ?? 'Bloqueo administrativo activo.',
           openedSimulated: false,
+        },
+      });
+
+      await this.notifyDeniedAccess({
+        branchId: input.branchId,
+        clientId: client.id,
+        title: `Acceso bloqueado: ${client.firstName} ${client.lastName}`,
+        body: client.administrativeBlockReason ?? 'Bloqueo administrativo activo.',
+        context: {
+          logId: log.id,
+          denialReason: 'ADMINISTRATIVE_BLOCK',
         },
       });
 
@@ -193,6 +238,17 @@ export class AccessControlService {
         },
       });
 
+      await this.notifyDeniedAccess({
+        branchId: input.branchId,
+        clientId: client.id,
+        title: `Acceso denegado a ${client.firstName} ${client.lastName}`,
+        body: 'No existe una membresia activa valida para este acceso.',
+        context: {
+          logId: log.id,
+          denialReason: 'MEMBERSHIP_MISSING',
+        },
+      });
+
       return {
         ...buildDenyPayload('MEMBERSHIP_MISSING', 'No existe una membresia activa valida para este acceso.'),
         action,
@@ -219,6 +275,17 @@ export class AccessControlService {
           },
         });
 
+        await this.notifyDeniedAccess({
+          branchId: input.branchId,
+          clientId: client.id,
+          title: `Acceso denegado por mora: ${client.firstName} ${client.lastName}`,
+          body: 'El cliente posee deuda vencida.',
+          context: {
+            logId: log.id,
+            denialReason: 'DEBT_RESTRICTION',
+          },
+        });
+
         return {
           ...buildDenyPayload('DEBT_RESTRICTION', 'El cliente posee deuda vencida.'),
           action,
@@ -241,6 +308,17 @@ export class AccessControlService {
             denialReason: 'ACCESS_LIMIT_REACHED',
             message: 'El plan ya consumio todos sus accesos.',
             openedSimulated: false,
+          },
+        });
+
+        await this.notifyDeniedAccess({
+          branchId: input.branchId,
+          clientId: client.id,
+          title: `Acceso denegado por limite: ${client.firstName} ${client.lastName}`,
+          body: 'El plan ya consumio todos sus accesos.',
+          context: {
+            logId: log.id,
+            denialReason: 'ACCESS_LIMIT_REACHED',
           },
         });
 
@@ -313,6 +391,16 @@ export class AccessControlService {
         planName: validMembership.plan.name,
       },
     };
+  }
+
+  private notifyDeniedAccess(input: {
+    branchId: string;
+    clientId?: string;
+    title: string;
+    body: string;
+    context?: Record<string, unknown>;
+  }) {
+    return notificationsService.queueAccessDenied(input);
   }
 }
 

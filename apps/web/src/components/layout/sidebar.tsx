@@ -1,5 +1,20 @@
 ﻿import Link from 'next/link';
-import { BarChart3, CreditCard, DoorOpen, LayoutDashboard, Settings2, ShieldCheck, Users, Wallet, Wrench } from 'lucide-react';
+import {
+  BarChart3,
+  BellRing,
+  Boxes,
+  CreditCard,
+  DoorOpen,
+  LayoutDashboard,
+  ReceiptText,
+  Settings2,
+  ShieldCheck,
+  Users,
+  Wallet,
+  Wrench,
+  CalendarRange,
+  Landmark,
+} from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 
@@ -9,6 +24,13 @@ const items = [
   { href: '/planes', label: 'Planes', icon: Settings2 },
   { href: '/membresias', label: 'Membresias', icon: Wallet },
   { href: '/pagos', label: 'Pagos', icon: CreditCard },
+  { href: '/gastos', label: 'Gastos', icon: ReceiptText },
+  { href: '/caja', label: 'Caja', icon: Landmark },
+  { href: '/finanzas', label: 'Finanzas', icon: BarChart3 },
+  { href: '/reportes', label: 'Reportes', icon: Settings2 },
+  { href: '/productos', label: 'Productos', icon: Boxes },
+  { href: '/clases', label: 'Clases', icon: CalendarRange },
+  { href: '/notificaciones', label: 'Notificaciones', icon: BellRing },
   { href: '/accesos', label: 'Accesos', icon: DoorOpen },
   { href: '/usuarios', label: 'Usuarios', icon: ShieldCheck },
   { href: '/configuracion', label: 'Configuracion', icon: Wrench },
@@ -49,7 +71,7 @@ export function Sidebar({ currentPath }: { currentPath: string }) {
           </div>
           <div>
             <p className="text-sm font-semibold text-ink-900">Base productiva</p>
-            <p className="text-xs text-ink-600">Lista para crecer a caja, stock y clases.</p>
+            <p className="text-xs text-ink-600">Ahora cubre caja, stock, clases y notificaciones.</p>
           </div>
         </div>
       </div>

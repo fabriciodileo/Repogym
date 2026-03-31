@@ -41,3 +41,31 @@ export const isCurrentRange = (startsAt: Date, endsAt: Date, reference = new Dat
 
 export const getDayOfWeek = (date: Date) => date.getDay();
 export const getHourMinute = (date: Date) => date.toISOString().slice(11, 16);
+
+export const startOfDay = (date = new Date()) => {
+  const value = new Date(date);
+  value.setHours(0, 0, 0, 0);
+  return value;
+};
+
+export const endOfDay = (date = new Date()) => {
+  const value = new Date(date);
+  value.setHours(23, 59, 59, 999);
+  return value;
+};
+
+export const startOfMonth = (date = new Date()) => new Date(date.getFullYear(), date.getMonth(), 1);
+
+export const endOfMonth = (date = new Date()) =>
+  new Date(date.getFullYear(), date.getMonth() + 1, 0, 23, 59, 59, 999);
+
+export const addDays = (date: Date, amount: number) => {
+  const value = new Date(date);
+  value.setDate(value.getDate() + amount);
+  return value;
+};
+
+export const resolveDateRange = (input?: { dateFrom?: Date; dateTo?: Date }) => ({
+  dateFrom: input?.dateFrom ? startOfDay(input.dateFrom) : undefined,
+  dateTo: input?.dateTo ? endOfDay(input.dateTo) : undefined,
+});

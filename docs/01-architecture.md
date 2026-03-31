@@ -305,3 +305,38 @@ El MVP de esta base no sera una demo visual. Va a quedar preparado para operar:
 - tablero inicial de operacion
 
 Lo que quede simulado se indicara explicitamente, sobre todo la apertura fisica de barrera o molinete.
+
+## 11. Estado actual de Fase 4
+
+La base ya fue extendida sobre la arquitectura original sin reestructurar el repositorio y manteniendo los contratos existentes.
+
+### Backend agregado
+- `expenses`
+- `cash-register`
+- `finance`
+- `reports`
+- `products`
+- `classes`
+- `notifications`
+
+### Frontend agregado
+- `/gastos`
+- `/caja`
+- `/finanzas`
+- `/reportes`
+- `/productos`
+- `/clases`
+- `/notificaciones`
+
+### Ajustes transversales
+- ampliacion de `AuditAction`
+- `NotificationType` y `branchId` en notificaciones
+- estado y cancelacion en `ClassSchedule`
+- jerarquia de `ExpenseCategory`
+- trazabilidad de usuario en `StockMovement`
+- dashboard ampliado con caja, stock, clases y balance diario
+
+### Simulaciones declaradas
+- provider de notificaciones externas: simulado por logs
+- integracion fisica real de acceso: simulada por gateway
+- exportacion PDF: preparada para una fase posterior; CSV operativo
