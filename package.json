@@ -1,0 +1,28 @@
+﻿{
+  "name": "gym-platform",
+  "private": true,
+  "packageManager": "npm@11.11.0",
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "concurrently -n api,web -c blue,green \"npm run dev -w @gym/api\" \"npm run dev -w @gym/web\"",
+    "dev:api": "npm run dev -w @gym/api",
+    "dev:web": "npm run dev -w @gym/web",
+    "build": "npm run build -ws",
+    "lint": "npm run lint -ws",
+    "format": "prettier --write .",
+    "prisma:generate": "npm run prisma:generate -w @gym/api",
+    "prisma:migrate": "npm run prisma:migrate -w @gym/api",
+    "prisma:seed": "npm run prisma:seed -w @gym/api"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "concurrently": "^9.1.2",
+    "eslint": "^9.17.0",
+    "eslint-config-prettier": "^10.0.1",
+    "globals": "^15.14.0",
+    "prettier": "^3.4.2",
+    "typescript-eslint": "^8.19.0"
+  }
+}
