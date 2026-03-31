@@ -1,0 +1,40 @@
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --panel-bg: rgba(255, 255, 255, 0.82);
+  --panel-border: rgba(73, 91, 123, 0.14);
+}
+
+body {
+  font-family: var(--font-heading), sans-serif;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(73, 91, 123, 0.4) transparent;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  letter-spacing: -0.03em;
+}
+
+.mono {
+  font-family: var(--font-mono), monospace;
+}
+
+.panel {
+  @apply rounded-3xl border border-white/60 bg-white/80 shadow-panel backdrop-blur;
+}
+
+.panel-muted {
+  @apply rounded-2xl border border-ink-100 bg-white/70 backdrop-blur;
+}
+
+.gradient-line {
+  background: linear-gradient(90deg, rgba(196, 107, 45, 0.8), rgba(45, 155, 123, 0.8));
+}

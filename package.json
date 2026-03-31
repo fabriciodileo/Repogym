@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "gym-platform",
   "private": true,
   "packageManager": "npm@11.11.0",
@@ -9,8 +9,8 @@
     "dev": "concurrently -n api,web -c blue,green \"npm run dev -w @gym/api\" \"npm run dev -w @gym/web\"",
     "dev:api": "npm run dev -w @gym/api",
     "dev:web": "npm run dev -w @gym/web",
-    "build": "npm run build -ws",
-    "lint": "npm run lint -ws",
+    "build": "npm run build --workspaces",
+    "lint": "npm run lint --workspaces",
     "format": "prettier --write .",
     "prisma:generate": "npm run prisma:generate -w @gym/api",
     "prisma:migrate": "npm run prisma:migrate -w @gym/api",

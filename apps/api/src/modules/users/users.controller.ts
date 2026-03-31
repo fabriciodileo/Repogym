@@ -23,7 +23,7 @@ export const usersController = {
   },
 
   async update(req: Request, res: Response) {
-    const result = await usersService.update(req.params.id, req.body, {
+    const result = await usersService.update(String(req.params.id), req.body, {
       userId: req.auth!.userId,
       branchId: req.auth!.branchId,
     });
@@ -31,3 +31,4 @@ export const usersController = {
     return res.json({ data: result });
   },
 };
+

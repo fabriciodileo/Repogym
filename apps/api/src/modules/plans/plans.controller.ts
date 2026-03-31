@@ -18,7 +18,7 @@ export const plansController = {
   },
 
   async update(req: Request, res: Response) {
-    const result = await plansService.update(req.params.id, req.body, {
+    const result = await plansService.update(String(req.params.id), req.body, {
       userId: req.auth!.userId,
       branchId: req.auth!.branchId,
     });
@@ -27,7 +27,7 @@ export const plansController = {
   },
 
   async remove(req: Request, res: Response) {
-    const result = await plansService.softDelete(req.params.id, {
+    const result = await plansService.softDelete(String(req.params.id), {
       userId: req.auth!.userId,
       branchId: req.auth!.branchId,
     });
@@ -35,3 +35,4 @@ export const plansController = {
     return res.json({ data: result });
   },
 };
+

@@ -1,12 +1,10 @@
-﻿import { Prisma } from '@prisma/client';
-
-import { env } from '../../config/env.js';
-import { AppError } from '../../core/errors/app-error.js';
+﻿import { env } from '../../config/env.js';
 import { getDayOfWeek, getHourMinute, isCurrentRange } from '../../lib/date-utils.js';
 import { normalizePageParams } from '../../lib/pagination.js';
 import { prisma } from '../../lib/prisma.js';
 import { auditService } from '../audit/audit.service.js';
-import { AccessGateway, SimulatedAccessGateway } from './access-control.gateway.js';
+import type { AccessGateway} from './access-control.gateway.js';
+import { SimulatedAccessGateway } from './access-control.gateway.js';
 import { accessControlRepository } from './access-control.repository.js';
 
 type ValidateInput = {
@@ -273,8 +271,7 @@ export class AccessControlService {
           branchId: input.branchId,
           deviceId: device?.id,
           membershipId: validMembership.id,
-          accessCredentialId:
-            'accessCredentials' in client && client.accessCredentials?.length ? client.accessCredentials[0].id : null,
+          accessCredentialId: client.accessCredentials.length ? client.accessCredentials[0].id : null,
           method: input.method,
           result: 'ALLOWED',
           message: input.note ?? 'Acceso autorizado.',
@@ -320,3 +317,6 @@ export class AccessControlService {
 }
 
 export const accessControlService = new AccessControlService();
+
+
+

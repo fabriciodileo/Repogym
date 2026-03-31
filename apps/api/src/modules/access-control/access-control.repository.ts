@@ -1,4 +1,5 @@
-﻿import { PrismaClient, type AccessMethod, type AccessResult, type Prisma } from '@prisma/client';
+﻿import type { PrismaClient} from '@prisma/client';
+import { type AccessMethod, type AccessResult, type Prisma } from '@prisma/client';
 
 import { prisma } from '../../lib/prisma.js';
 
@@ -28,6 +29,13 @@ export class AccessControlRepository {
           dni: identifier,
           deletedAt: null,
         },
+        include: {
+          accessCredentials: {
+            where: {
+              isActive: true,
+            },
+          },
+        },
       });
     }
 
@@ -36,6 +44,13 @@ export class AccessControlRepository {
         where: {
           memberNumber: identifier,
           deletedAt: null,
+        },
+        include: {
+          accessCredentials: {
+            where: {
+              isActive: true,
+            },
+          },
         },
       });
     }

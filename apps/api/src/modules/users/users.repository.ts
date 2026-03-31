@@ -1,4 +1,5 @@
-﻿import { PrismaClient, type Prisma, type RoleCode } from '@prisma/client';
+﻿import type { PrismaClient} from '@prisma/client';
+import { type Prisma, type RoleCode } from '@prisma/client';
 
 import { prisma } from '../../lib/prisma.js';
 

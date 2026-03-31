@@ -1,4 +1,5 @@
-﻿import { PrismaClient, type MembershipStatus, type Prisma } from '@prisma/client';
+﻿import type { PrismaClient} from '@prisma/client';
+import { type MembershipStatus, type Prisma } from '@prisma/client';
 
 import { prisma } from '../../lib/prisma.js';
 

@@ -1,4 +1,4 @@
-﻿generator client {
+generator client {
   provider = "prisma-client-js"
 }
 
@@ -292,6 +292,7 @@ model Branch {
   users                 User[]
   clients               Client[]
   planBranches          PlanBranch[]
+  planTimeRules          PlanTimeRule[]
   memberships           ClientMembership[]
   receivables           Receivable[]
   payments              Payment[]
@@ -301,7 +302,9 @@ model Branch {
   cashSessions          CashSession[]
   cashMovements         CashMovement[]
   products              Product[]
+  stockMovements        StockMovement[]
   activities            Activity[]
+  classSchedules        ClassSchedule[]
   productSales          ProductSale[]
   incidents             ClientIncident[]
   auditLogs             AuditLog[]
@@ -841,7 +844,7 @@ model ProductCategory {
   name        String
   description String?
   isActive    Boolean   @default(true)
-  products    Product[]
+  products              Product[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   deletedAt   DateTime?
@@ -907,8 +910,8 @@ model ProductSale {
   client         Client?          @relation(fields: [clientId], references: [id])
   soldBy         User             @relation("RecordedSales", fields: [soldById], references: [id])
   items          ProductSaleItem[]
-  receivables    Receivable[]     @relation("SaleReceivable")
   stockMovements StockMovement[]
+  receivables    Receivable[]     @relation("SaleReceivable")
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
 

@@ -9,7 +9,7 @@ export const clientsController = {
   },
 
   async profile(req: Request, res: Response) {
-    const result = await clientsService.getProfile(req.params.id);
+    const result = await clientsService.getProfile(String(req.params.id));
     return res.json({ data: result });
   },
 
@@ -23,7 +23,7 @@ export const clientsController = {
   },
 
   async update(req: Request, res: Response) {
-    const result = await clientsService.update(req.params.id, req.body, {
+    const result = await clientsService.update(String(req.params.id), req.body, {
       userId: req.auth!.userId,
       branchId: req.auth!.branchId,
     });
@@ -32,7 +32,7 @@ export const clientsController = {
   },
 
   async remove(req: Request, res: Response) {
-    const result = await clientsService.softDelete(req.params.id, {
+    const result = await clientsService.softDelete(String(req.params.id), {
       userId: req.auth!.userId,
       branchId: req.auth!.branchId,
     });
@@ -40,3 +40,4 @@ export const clientsController = {
     return res.json({ data: result });
   },
 };
+

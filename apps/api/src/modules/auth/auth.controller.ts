@@ -1,5 +1,4 @@
-﻿import crypto from 'node:crypto';
-import type { Request, Response } from 'express';
+﻿import type { Request, Response } from 'express';
 
 import { authService } from './auth.service.js';
 
@@ -35,3 +34,4 @@ export const authController = {
     return res.status(200).json(result);
   },
 };
+

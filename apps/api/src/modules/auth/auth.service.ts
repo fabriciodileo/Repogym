@@ -1,4 +1,5 @@
-﻿import jwt from 'jsonwebtoken';
+﻿import { randomUUID } from 'node:crypto';
+import jwt from 'jsonwebtoken';
 
 import { AppError } from '../../core/errors/app-error.js';
 import type { AuthenticatedSession } from '../../core/types/auth.js';
@@ -80,7 +81,7 @@ export class AuthService {
 
     const session = mapSession(user);
     const accessToken = signAccessToken(session);
-    const refreshToken = signRefreshToken({ sub: user.id, jti: crypto.randomUUID() });
+    const refreshToken = signRefreshToken({ sub: user.id, jti: randomUUID() });
 
     await Promise.all([
       authRepository.createRefreshToken(user.id, hashToken(refreshToken), decodeRefreshExpiration(refreshToken)),
@@ -123,7 +124,7 @@ export class AuthService {
 
     const session = mapSession(user);
     const accessToken = signAccessToken(session);
-    const refreshToken = signRefreshToken({ sub: user.id, jti: crypto.randomUUID() });
+    const refreshToken = signRefreshToken({ sub: user.id, jti: randomUUID() });
 
     await authRepository.createRefreshToken(
       user.id,
@@ -179,3 +180,4 @@ export class AuthService {
 }
 
 export const authService = new AuthService();
+

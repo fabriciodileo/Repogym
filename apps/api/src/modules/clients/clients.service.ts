@@ -1,6 +1,4 @@
-﻿import { Prisma } from '@prisma/client';
-
-import { AppError } from '../../core/errors/app-error.js';
+﻿import { AppError } from '../../core/errors/app-error.js';
 import { normalizePageParams } from '../../lib/pagination.js';
 import { prisma } from '../../lib/prisma.js';
 import { auditService } from '../audit/audit.service.js';
@@ -291,3 +289,4 @@ export class ClientsService {
 }
 
 export const clientsService = new ClientsService();
+

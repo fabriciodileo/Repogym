@@ -1,4 +1,5 @@
-﻿import { PrismaClient, type AuditAction } from '@prisma/client';
+﻿import type { PrismaClient} from '@prisma/client';
+import { type AuditAction } from '@prisma/client';
 
 import { prisma } from '../../lib/prisma.js';
 

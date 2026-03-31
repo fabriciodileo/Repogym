@@ -23,7 +23,7 @@ export const paymentsController = {
   },
 
   async void(req: Request, res: Response) {
-    const result = await paymentsService.void(req.params.id, req.body.reason, {
+    const result = await paymentsService.void(String(req.params.id), req.body.reason, {
       userId: req.auth!.userId,
       branchId: req.auth!.branchId,
     });
@@ -31,3 +31,4 @@ export const paymentsController = {
     return res.json({ data: result });
   },
 };
+

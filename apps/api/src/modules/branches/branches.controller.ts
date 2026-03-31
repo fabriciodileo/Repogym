@@ -18,7 +18,7 @@ export const branchesController = {
   },
 
   async update(req: Request, res: Response) {
-    const result = await branchesService.update(req.params.id, req.body, {
+    const result = await branchesService.update(String(req.params.id), req.body, {
       userId: req.auth!.userId,
       branchId: req.auth!.branchId,
     });
@@ -26,3 +26,4 @@ export const branchesController = {
     return res.json({ data: result });
   },
 };
+

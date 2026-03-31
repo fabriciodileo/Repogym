@@ -18,7 +18,7 @@ export const membershipsController = {
   },
 
   async renew(req: Request, res: Response) {
-    const result = await membershipsService.renew(req.params.id, req.body, {
+    const result = await membershipsService.renew(String(req.params.id), req.body, {
       userId: req.auth!.userId,
       branchId: req.auth!.branchId,
     });
@@ -27,7 +27,7 @@ export const membershipsController = {
   },
 
   async changeStatus(req: Request, res: Response) {
-    const result = await membershipsService.changeStatus(req.params.id, req.body, {
+    const result = await membershipsService.changeStatus(String(req.params.id), req.body, {
       userId: req.auth!.userId,
       branchId: req.auth!.branchId,
     });
@@ -35,3 +35,4 @@ export const membershipsController = {
     return res.json({ data: result });
   },
 };
+

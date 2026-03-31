@@ -1,4 +1,4 @@
-﻿import type { Prisma, PrismaClient, SystemSetting } from '@prisma/client';
+﻿import type { Prisma, SystemSetting } from '@prisma/client';
 
 import { auditService } from '../audit/audit.service.js';
 import { settingsRepository } from './settings.repository.js';
@@ -92,3 +92,4 @@ export class SettingsService {
 }
 
 export const settingsService = new SettingsService();
+
