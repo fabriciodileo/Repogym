@@ -27,6 +27,11 @@ apps/
 docs/
 ```
 
+## Documentacion
+
+- Arquitectura base: `docs/01-architecture.md`
+- Release y operacion de base de datos: `docs/02-database-release.md`
+
 ## Requisitos
 
 - Node.js 24+
@@ -148,9 +153,30 @@ docs/
 4. Ejecutar `npm run prisma:seed`
 5. Levantar la plataforma con `npm run dev`
 
+### Migracion validada en el repo
+
+- Prisma schema: `apps/api/prisma/schema.prisma`
+- Carpeta de migraciones: `apps/api/prisma/migrations`
+- Migracion actual validada contra PostgreSQL local: `20260401030410_init`
+
+### Flujo recomendado por ambiente
+
+#### Desarrollo local
+- `npm run prisma:generate`
+- `npm run prisma:migrate`
+- `npm run prisma:seed`
+
+#### Deploy / ambiente compartido
+- generar y revisar la migracion en desarrollo
+- versionar `schema.prisma` y `apps/api/prisma/migrations`
+- ejecutar en el servidor o pipeline:
+  - `cd apps/api`
+  - `npx prisma migrate deploy`
+- correr seed solo si el ambiente lo necesita y esta contemplado operativamente
+
 ## Siguiente paso recomendado
 
-1. Crear la migracion Prisma real contra PostgreSQL.
-2. Correr el seed ampliado y validar los nuevos tableros.
-3. Integrar un scheduler real para notificaciones periodicas.
-4. Avanzar con proveedor real de email / WhatsApp y exportacion PDF.
+1. Versionar la carpeta `apps/api/prisma/migrations` junto con el `schema.prisma`.
+2. Integrar un scheduler real para notificaciones periodicas.
+3. Avanzar con proveedor real de email / WhatsApp y exportacion PDF.
+4. Agregar tests de servicios criticos y smoke tests operativos.
